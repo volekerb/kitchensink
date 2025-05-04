@@ -53,6 +53,39 @@
   - Added validation with error messaging
   - Created a responsive Bootstrap-based UI
 
+## Documentation and Deployment
+
+### API Documentation
+- [x] Implement OpenAPI/Swagger documentation
+  - Added SpringDoc OpenAPI dependencies
+  - Created OpenApiConfig class
+  - Added annotations to REST controllers
+
+### Deployment Configuration
+- [x] Create Docker configuration for containerization
+  - Added Dockerfile and .dockerignore
+  - Created docker-compose.yml for easy deployment
+  - Added production profile configuration
+
+### Comprehensive README
+- [x] Create detailed README with setup instructions
+  - Added overview, features, and architecture sections
+  - Documented build and run processes
+  - Included API documentation links and usage information
+
+## Testing and Verification
+
+### Unit and Integration Testing
+- [x] Execute existing tests to ensure all functionality works
+- [x] Verify OpenAPI documentation is accessible
+- [x] Test application startup and functionality
+
+### Manual Testing
+- [x] Test member registration through the UI
+- [x] Verify REST API endpoints with curl/Postman
+- [x] Ensure H2 console is accessible
+- [x] Check Swagger UI is properly configured
+
 ## Progress Notes
 
 ### Day 1: Initial Setup and Entity Migration
@@ -83,3 +116,12 @@
 4. Created controller tests to ensure proper functionality
 5. Enhanced application with responsive Bootstrap-based UI
 6. Updated application properties for Thymeleaf configuration
+
+### Day 5: Documentation, Deployment, and Testing
+
+1. Added OpenAPI configuration for API documentation
+2. Created Docker and Docker Compose files for containerization
+3. Enhanced the README with comprehensive documentation
+4. Fixed POM file structure and dependency issues
+5. Executed tests to verify all functionality works
+6. Performed manual testing of key features

@@ -2,7 +2,7 @@ package org.jboss.as.quickstarts.kitchensink;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.context.WebServerInitializedEvent;
+import org.springframework.boot.web.servlet.context.ServletWebServerInitializedEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
@@ -16,11 +16,11 @@ public class KitchensinkApplication {
 	}
 
 	@Component
-	public static class ServerPortLogger implements ApplicationListener<WebServerInitializedEvent> {
+	public static class ServerPortLogger implements ApplicationListener<ServletWebServerInitializedEvent> {
 		private static final Logger LOG = Logger.getLogger(ServerPortLogger.class.getName());
 
 		@Override
-		public void onApplicationEvent(WebServerInitializedEvent event) {
+		public void onApplicationEvent(ServletWebServerInitializedEvent event) {
 			int port = event.getWebServer().getPort();
 			LOG.info("=======================================================");
 			LOG.info("  JBoss Kitchensink Spring Boot Migration is running!");
