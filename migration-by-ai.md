@@ -24,6 +24,20 @@
   - Created MemberListProducer component as a replacement for CDI producer
   - Added repository tests to verify functionality
 
+## Business Logic Migration
+
+### Service Layer Migration
+- [x] Migrate the MemberRegistration service
+  - Created MemberService with proper transaction management
+  - Implemented validation logic for members
+  - Added service methods for CRUD operations
+
+### Event Handling
+- [x] Replace JBoss event system with Spring events
+  - Created MemberRegisteredEvent class
+  - Implemented event publishing in MemberService
+  - Updated MemberListProducer to listen for events
+
 ## Progress Notes
 
 ### Day 1: Initial Setup and Entity Migration
@@ -38,3 +52,10 @@
 2. Implemented custom query methods for finding members by email, name, and domain
 3. Created MemberListProducer component to replace CDI producer functionality
 4. Added repository tests to ensure proper functionality
+
+### Day 3: Business Logic Implementation
+
+1. Created MemberService with transaction management using @Transactional
+2. Implemented validation logic and business rules
+3. Added event handling using Spring's ApplicationEventPublisher
+4. Created unit tests for service methods to ensure proper functionality
