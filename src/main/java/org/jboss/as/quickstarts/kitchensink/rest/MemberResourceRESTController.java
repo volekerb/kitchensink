@@ -1,5 +1,12 @@
 package org.jboss.as.quickstarts.kitchensink.rest;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.jboss.as.quickstarts.kitchensink.model.Member;
@@ -20,6 +27,7 @@ import java.util.logging.Logger;
  */
 @RestController
 @RequestMapping("/api/members")
+@Tag(name = "Member", description = "Member management API")
 public class MemberResourceRESTController {
     
     private static final Logger log = Logger.getLogger(MemberResourceRESTController.class.getName());
@@ -35,6 +43,8 @@ public class MemberResourceRESTController {
      * @return list of members
      */
     @GetMapping
+    @Operation(summary = "Get all members", description = "Returns a list of all registered members")
+    @ApiResponse(responseCode = "200", description = "Successfully retrieved the list of members")
     public List<Member> listAllMembers() {
         return (List<Member>) memberService.findAll();
     }
@@ -45,7 +55,14 @@ public class MemberResourceRESTController {
      * @return the member if found, or 404 response
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Member> lookupMemberById(@PathVariable("id") Long id) {
+    @Operation(summary = "Get a member by ID", description = "Returns a member as per the ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved the member"),
+            @ApiResponse(responseCode = "404", description = "Member not found", content = @Content)
+    })
+    public ResponseEntity<Member> lookupMemberById(
+            @Parameter(description = "ID of the member to retrieve") 
+            @PathVariable("id") Long id) {
         log.info("Fetching member with id: " + id);
         return memberService.findById(id)
                 .map(ResponseEntity::ok)
@@ -58,7 +75,15 @@ public class MemberResourceRESTController {
      * @return 201 CREATED response with the created member
      */
     @PostMapping
-    public ResponseEntity<?> createMember(@RequestBody Member member) {
+    @Operation(summary = "Create a new member", description = "Creates a new member and returns the created entity")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Member created successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid member data supplied"),
+            @ApiResponse(responseCode = "409", description = "Member with the same email already exists")
+    })
+    public ResponseEntity<?> createMember(
+            @Parameter(description = "Member to create", required = true, schema = @Schema(implementation = Member.class))
+            @RequestBody Member member) {
         log.info("Creating member: " + member.getName());
         
         try {
@@ -79,7 +104,14 @@ public class MemberResourceRESTController {
      * @return 204 NO CONTENT response
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteMember(@PathVariable("id") Long id) {
+    @Operation(summary = "Delete a member", description = "Deletes a member by ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Member successfully deleted"),
+            @ApiResponse(responseCode = "404", description = "Member not found")
+    })
+    public ResponseEntity<Void> deleteMember(
+            @Parameter(description = "ID of the member to delete")
+            @PathVariable("id") Long id) {
         log.info("Deleting member with id: " + id);
         
         try {

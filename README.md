@@ -13,6 +13,24 @@ The original Kitchensink application is a JBoss-based Java EE application that d
 - Spring MVC for REST endpoints
 - Thymeleaf for server-side templating
 
+## Features
+
+- Member registration and listing
+- Form validation with error messages
+- RESTful API for CRUD operations
+- Responsive Bootstrap UI
+- API documentation with OpenAPI/Swagger
+- Docker support for containerization
+
+## Architecture
+
+The application follows a multi-layered architecture:
+
+- **Presentation Layer**: Spring MVC controllers and Thymeleaf templates
+- **Business Layer**: Services with transaction management
+- **Data Access Layer**: Spring Data JPA repositories
+- **Domain Model**: JPA entities with validation
+
 ## Getting Started
 
 ### Prerequisites
@@ -20,5 +38,8 @@ The original Kitchensink application is a JBoss-based Java EE application that d
 - Java 21 or later
 - Maven 3.8+
 - Git
+- Docker (optional, for containerization)
 
 ### Building the Application
+
+Clone the repository and build the application:
