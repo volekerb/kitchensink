@@ -43,3 +43,93 @@ The application follows a multi-layered architecture:
 ### Building the Application
 
 Clone the repository and build the application:
+
+```bash
+git clone <repository-url>
+cd kitchensink-spring
+./mvnw clean package
+```
+
+### Running the Application
+
+#### Running Locally
+
+You can run the application locally using the Maven wrapper:
+
+```bash
+./mvnw spring-boot:run
+```
+
+Or you can run the JAR file directly after building:
+
+```bash
+java -jar target/kitchensink-spring-0.0.1-SNAPSHOT.jar
+```
+
+#### Running with Docker
+
+Build and run the application using Docker:
+
+```bash
+# Build the Docker image
+docker build -t kitchensink-spring .
+
+# Run the container
+docker run -p 8080:8080 kitchensink-spring
+```
+
+#### Running with Docker Compose
+
+Run the application using Docker Compose:
+
+```bash
+docker-compose up
+```
+
+### Accessing the Application
+
+Once the application is running, you can access it at:
+
+- Web Interface: http://localhost:8080
+- REST API: http://localhost:8080/api/members
+- API Documentation: http://localhost:8080/swagger-ui.html
+- H2 Database Console (in development mode): http://localhost:8080/h2-console
+  - JDBC URL: jdbc:h2:mem:kitchensinkdb
+  - Username: sa
+  - Password: password
+
+### Configuration Options
+
+The application can be configured using the following methods:
+
+#### Application Properties
+
+Key application properties include:
+
+- `server.port`: The port the application runs on (default: 8080)
+- `spring.profiles.active`: Active profile (default: development, options: prod)
+- `spring.datasource.url`: Database URL
+- `spring.datasource.username`: Database username
+- `spring.datasource.password`: Database password
+
+#### Environment Variables
+
+In production mode, the application uses environment variables:
+
+- `PORT`: Server port
+- `SPRING_PROFILES_ACTIVE`: Active Spring profile
+- `SPRING_DATASOURCE_URL`: Database URL
+- `SPRING_DATASOURCE_USERNAME`: Database username
+- `SPRING_DATASOURCE_PASSWORD`: Database password
+
+#### Production Mode
+
+To run the application in production mode:
+
+```bash
+# Locally
+java -jar -Dspring.profiles.active=prod target/kitchensink-spring-0.0.1-SNAPSHOT.jar
+
+# With Docker
+docker run -p 8080:8080 -e SPRING_PROFILES_ACTIVE=prod kitchensink-spring
+```

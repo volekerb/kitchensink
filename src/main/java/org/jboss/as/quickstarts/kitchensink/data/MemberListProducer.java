@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  */
 @Component
 public class MemberListProducer {
-    
+
     private static final Logger log = Logger.getLogger(MemberListProducer.class.getName());
 
     private final MemberRepository memberRepository;
@@ -50,9 +50,11 @@ public class MemberListProducer {
     }
 
     /**
-     * Refresh the list of all members
+     * Refresh the list of all members ordered by name
      */
     public void retrieveAllMembersOrderedByName() {
         this.members = memberRepository.findAll();
+        // Sort members by name
+        this.members.sort((m1, m2) -> m1.getName().compareToIgnoreCase(m2.getName()));
     }
 }
