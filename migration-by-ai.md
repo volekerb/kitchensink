@@ -38,6 +38,21 @@
   - Implemented event publishing in MemberService
   - Updated MemberListProducer to listen for events
 
+## Presentation Layer Migration
+
+### REST API Migration
+- [x] Create Spring REST controllers to replace JAX-RS endpoints
+  - Implemented MemberResourceRESTController for CRUD operations
+  - Added proper exception handling with RestExceptionHandler
+  - Set up content negotiation for JSON responses
+
+### Web Interface
+- [x] Replace JSF with a Thymeleaf-based interface
+  - Created Thymeleaf template for the home page
+  - Implemented MemberController for handling form submissions
+  - Added validation with error messaging
+  - Created a responsive Bootstrap-based UI
+
 ## Progress Notes
 
 ### Day 1: Initial Setup and Entity Migration
@@ -59,3 +74,12 @@
 2. Implemented validation logic and business rules
 3. Added event handling using Spring's ApplicationEventPublisher
 4. Created unit tests for service methods to ensure proper functionality
+
+### Day 4: Presentation Layer Implementation
+
+1. Created REST controller with proper API endpoints and error handling
+2. Implemented Thymeleaf templates for the web interface
+3. Added web controller for handling form submissions
+4. Created controller tests to ensure proper functionality
+5. Enhanced application with responsive Bootstrap-based UI
+6. Updated application properties for Thymeleaf configuration
