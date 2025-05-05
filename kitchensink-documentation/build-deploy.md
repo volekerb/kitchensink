@@ -165,6 +165,8 @@ The Kitchensink application can be deployed to OpenShift using the Source-to-Ima
 
 #### Using Helm Charts
 
+##### Original JBoss EAP Version
+
 1. Add the JBoss EAP Helm repository:
    ```bash
    helm repo add jboss-eap https://jbossas.github.io/eap-charts/
@@ -181,6 +183,39 @@ The Kitchensink application can be deployed to OpenShift using the Source-to-Ima
      --set build.uri=https://github.com/jboss-developer/jboss-eap-quickstarts \
      --set build.ref=8.0.x \
      --set build.contextDir=kitchensink
+   ```
+
+##### Spring Boot Version
+
+The Spring Boot version of Kitchensink includes a Helm chart for deployment to Kubernetes environments.
+
+1. Build the Docker image:
+   ```bash
+   docker build -t kitchensink-spring:latest .
+   ```
+
+2. Install the Helm chart:
+   ```bash
+   helm install kitchensink-spring ./charts
+   ```
+
+3. To customize the deployment, you can override values:
+   ```bash
+   helm install kitchensink-spring ./charts \
+     --set replicaCount=2 \
+     --set image.repository=your-registry/kitchensink-spring \
+     --set image.tag=1.0.0 \
+     --set env.SPRING_PROFILES_ACTIVE=prod \
+     --set persistence.enabled=true
+   ```
+
+4. Access the application:
+   ```bash
+   # Get the service URL
+   kubectl get svc kitchensink-spring
+
+   # If using Ingress, add the host to your /etc/hosts file
+   echo "127.0.0.1 kitchensink-spring.local" | sudo tee -a /etc/hosts
    ```
 
 ### Docker Deployment

@@ -21,6 +21,7 @@ The original Kitchensink application is a JBoss-based Java EE application that d
 - Responsive Bootstrap UI
 - API documentation with OpenAPI/Swagger
 - Docker support for containerization
+- Kubernetes deployment with Helm charts
 
 ## Architecture
 
@@ -85,6 +86,26 @@ Run the application using Docker Compose:
 ```bash
 docker-compose up
 ```
+
+#### Running on Kubernetes with Helm
+
+Deploy the application to Kubernetes using Helm:
+
+```bash
+# Build the Docker image
+docker build -t kitchensink-spring:latest .
+
+# Install the Helm chart
+helm install kitchensink-spring ./charts
+
+# To customize the deployment
+helm install kitchensink-spring ./charts \
+  --set replicaCount=2 \
+  --set image.repository=your-registry/kitchensink-spring \
+  --set image.tag=1.0.0
+```
+
+For more detailed instructions on Helm deployment, see the [deployment documentation](kitchensink-documentation/build-deploy.md#spring-boot-version).
 
 ### Accessing the Application
 
