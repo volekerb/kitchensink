@@ -2,19 +2,28 @@ package org.jboss.as.quickstarts.kitchensink;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
+import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
+import org.springframework.boot.autoconfigure.data.mongo.MongoRepositoriesAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.servlet.context.ServletWebServerInitializedEvent;
 import org.springframework.context.ApplicationContext;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
+@TestPropertySource(properties = {
+    "mongodb.enabled=false"
+})
 class KitchensinkApplicationTests {
 
     @Autowired
@@ -48,5 +57,31 @@ class KitchensinkApplicationTests {
 
         // This should not throw any exceptions
         serverPortLogger.onApplicationEvent(event);
+    }
+
+    @Test
+    void mongoAutoConfigurationIsDisabled() {
+        // Verify that MongoDB auto-configuration beans are not present in the application context
+        // when mongodb.enabled=false
+
+        // MongoAutoConfiguration should not be present
+        assertThrows(org.springframework.beans.factory.NoSuchBeanDefinitionException.class, 
+            () -> context.getBean(MongoAutoConfiguration.class),
+            "MongoAutoConfiguration bean should not be available when mongodb.enabled=false");
+
+        // MongoDataAutoConfiguration should not be present
+        assertThrows(org.springframework.beans.factory.NoSuchBeanDefinitionException.class, 
+            () -> context.getBean(MongoDataAutoConfiguration.class),
+            "MongoDataAutoConfiguration bean should not be available when mongodb.enabled=false");
+
+        // MongoRepositoriesAutoConfiguration should not be present
+        assertThrows(org.springframework.beans.factory.NoSuchBeanDefinitionException.class, 
+            () -> context.getBean(MongoRepositoriesAutoConfiguration.class),
+            "MongoRepositoriesAutoConfiguration bean should not be available when mongodb.enabled=false");
+
+        // MongoTemplate should not be present
+        assertThrows(org.springframework.beans.factory.NoSuchBeanDefinitionException.class, 
+            () -> context.getBean(MongoTemplate.class),
+            "MongoTemplate bean should not be available when mongodb.enabled=false");
     }
 }

@@ -12,6 +12,9 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
+@org.springframework.test.context.TestPropertySource(properties = {
+    "mongodb.enabled=false"
+})
 public class MemberRepositoryTest {
 
     @Autowired
@@ -45,17 +48,17 @@ public class MemberRepositoryTest {
         member1.setName("John Smith");
         member1.setEmail("john@example.com");
         member1.setPhoneNumber("1234567890");
-        
+
         Member member2 = new Member();
         member2.setName("Jane Smith");
         member2.setEmail("jane@example.com");
         member2.setPhoneNumber("0987654321");
-        
+
         Member member3 = new Member();
         member3.setName("Robert Johnson");
         member3.setEmail("robert@example.com");
         member3.setPhoneNumber("5555555555");
-        
+
         entityManager.persist(member1);
         entityManager.persist(member2);
         entityManager.persist(member3);
@@ -77,17 +80,17 @@ public class MemberRepositoryTest {
         member1.setName("John Doe");
         member1.setEmail("john@example.com");
         member1.setPhoneNumber("1234567890");
-        
+
         Member member2 = new Member();
         member2.setName("Jane Smith");
         member2.setEmail("jane@example.com");
         member2.setPhoneNumber("0987654321");
-        
+
         Member member3 = new Member();
         member3.setName("Alice Johnson");
         member3.setEmail("alice@gmail.com");
         member3.setPhoneNumber("5555555555");
-        
+
         entityManager.persist(member1);
         entityManager.persist(member2);
         entityManager.persist(member3);

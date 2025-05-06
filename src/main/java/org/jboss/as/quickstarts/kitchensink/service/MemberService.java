@@ -5,6 +5,7 @@ import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
 import org.jboss.as.quickstarts.kitchensink.data.MemberRepository;
 import org.jboss.as.quickstarts.kitchensink.model.Member;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,13 +20,14 @@ import java.util.logging.Logger;
  */
 @Service
 public class MemberService {
-    
+
     private static final Logger log = Logger.getLogger(MemberService.class.getName());
-    
-    private final MemberRepository memberRepository;
+
+    private MemberRepository memberRepository;
     private final Validator validator;
     private final ApplicationEventPublisher eventPublisher;
-    
+
+    @Autowired
     public MemberService(MemberRepository memberRepository, 
                          Validator validator, 
                          ApplicationEventPublisher eventPublisher) {
@@ -33,7 +35,7 @@ public class MemberService {
         this.validator = validator;
         this.eventPublisher = eventPublisher;
     }
-    
+
     /**
      * Register a new member
      * @param member the member to register
@@ -42,25 +44,25 @@ public class MemberService {
     @Transactional
     public Member register(Member member) throws Exception {
         log.info("Registering " + member.getName());
-        
+
         // Validate the member
         validateMember(member);
-        
+
         // Check if email already exists
         Optional<Member> existingMember = memberRepository.findByEmail(member.getEmail());
         if (existingMember.isPresent()) {
             throw new Exception("Email " + member.getEmail() + " already exists");
         }
-        
+
         // Save the member
         Member savedMember = memberRepository.save(member);
-        
+
         // Notify listeners of the new registration
         eventPublisher.publishEvent(new MemberRegisteredEvent(this, savedMember));
-        
+
         return savedMember;
     }
-    
+
     /**
      * Find a member by ID
      * @param id the member ID
@@ -69,7 +71,7 @@ public class MemberService {
     public Optional<Member> findById(Long id) {
         return memberRepository.findById(id);
     }
-    
+
     /**
      * Get all members
      * @return list of all members
@@ -77,7 +79,7 @@ public class MemberService {
     public Iterable<Member> findAll() {
         return memberRepository.findAll();
     }
-    
+
     /**
      * Delete a member
      * @param id the member ID to delete
@@ -86,7 +88,7 @@ public class MemberService {
     public void delete(Long id) {
         memberRepository.deleteById(id);
     }
-    
+
     /**
      * Validate member against bean validation constraints
      * @param member the member to validate
@@ -95,7 +97,7 @@ public class MemberService {
     private void validateMember(Member member) {
         // Create a bean validator and check for issues
         Set<ConstraintViolation<Member>> violations = validator.validate(member);
-        
+
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException(violations);
         }

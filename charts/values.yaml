@@ -85,10 +85,15 @@ affinity: {}
 env:
   # Spring profile to use
   SPRING_PROFILES_ACTIVE: prod
-  # Database configuration
+
+  # Database configuration - H2 (default)
   SPRING_DATASOURCE_URL: jdbc:h2:mem:kitchensink
   SPRING_DATASOURCE_USERNAME: sa
   SPRING_DATASOURCE_PASSWORD: password
+
+  # MongoDB configuration (disabled by default)
+  MONGODB_ENABLED: "false"
+  MONGODB_URI: mongodb://mongodb:27017/kitchensink
 
 # Persistence configuration
 persistence:
